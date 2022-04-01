@@ -1,3 +1,5 @@
+pub mod prefectures;
+
 #[cfg(test)]
 mod tests {
     #[test]
