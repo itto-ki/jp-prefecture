@@ -1,4 +1,5 @@
 /// Japanese prefectures
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Prefecture {
     Hokkaido = 1,
     Aomori = 2,
@@ -47,4 +48,62 @@ pub enum Prefecture {
     Miyazaki = 45,
     Kagoshima = 46,
     Okinawa = 47,
+}
+
+impl Prefecture {
+    pub fn code(self) -> u32 {
+        self as u32
+    }
+
+    pub fn kanji(self) -> String {
+        match self {
+            Prefecture::Hokkaido => String::from("北海道"),
+            Prefecture::Aomori => String::from("青森県"),
+            Prefecture::Iwate => String::from("岩手県"),
+            Prefecture::Miyagi => String::from("宮城県"),
+            Prefecture::Akita => String::from("秋田県"),
+            Prefecture::Yamagata => String::from("秋田県"),
+            Prefecture::Fukushima => String::from("福島県"),
+            Prefecture::Ibaraki => String::from("茨城県"),
+            Prefecture::Tochigi => String::from("栃木県"),
+            Prefecture::Gunma => String::from("群馬県"),
+            Prefecture::Saitama => String::from("埼玉県"),
+            Prefecture::Chiba => String::from("千葉県"),
+            Prefecture::Tokyo => String::from("東京都"),
+            Prefecture::Kanagawa => String::from("神奈川県"),
+            Prefecture::Niigata => String::from("新潟県"),
+            Prefecture::Toyama => String::from("富山県"),
+            Prefecture::Ishikawa => String::from("石川県"),
+            Prefecture::Fukui => String::from("福井県"),
+            Prefecture::Yamanashi => String::from("山梨県"),
+            Prefecture::Nagano => String::from("長野県"),
+            Prefecture::Gifu => String::from("岐阜県"),
+            Prefecture::Shizuoka => String::from("静岡県"),
+            Prefecture::Aichi => String::from("愛知県"),
+            Prefecture::Mie => String::from("三重県"),
+            Prefecture::Shiga => String::from("滋賀県"),
+            Prefecture::Kyoto => String::from("京都府"),
+            Prefecture::Osaka => String::from("大阪府"),
+            Prefecture::Hyogo => String::from("兵庫県"),
+            Prefecture::Nara => String::from("奈良県"),
+            Prefecture::Wakayama => String::from("和歌山県"),
+            Prefecture::Tottori => String::from("鳥取県"),
+            Prefecture::Shimane => String::from("島根県"),
+            Prefecture::Okayama => String::from("岡山県"),
+            Prefecture::Hiroshima => String::from("広島県"),
+            Prefecture::Yamaguchi => String::from("山口県"),
+            Prefecture::Tokushima => String::from("徳島県"),
+            Prefecture::Kagawa => String::from("香川県"),
+            Prefecture::Ehime => String::from("愛媛県"),
+            Prefecture::Kochi => String::from("高知県"),
+            Prefecture::Fukuoka => String::from("福岡県"),
+            Prefecture::Saga => String::from("佐賀県"),
+            Prefecture::Nagasaki => String::from("長崎県"),
+            Prefecture::Kumamoto => String::from("熊本県"),
+            Prefecture::Oita => String::from("大分県"),
+            Prefecture::Miyazaki => String::from("宮崎県"),
+            Prefecture::Kagoshima => String::from("鹿児島県"),
+            Prefecture::Okinawa => String::from("沖縄県"),
+        }
+    }
 }
