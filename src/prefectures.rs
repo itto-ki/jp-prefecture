@@ -51,7 +51,7 @@ pub enum Prefecture {
 }
 
 impl Prefecture {
-    pub fn code(self) -> u32 {
+    pub fn jis_x_0401_code(self) -> u32 {
         self as u32
     }
 
