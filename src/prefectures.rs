@@ -62,7 +62,7 @@ impl Prefecture {
             Prefecture::Iwate => String::from("岩手県"),
             Prefecture::Miyagi => String::from("宮城県"),
             Prefecture::Akita => String::from("秋田県"),
-            Prefecture::Yamagata => String::from("秋田県"),
+            Prefecture::Yamagata => String::from("山形県"),
             Prefecture::Fukushima => String::from("福島県"),
             Prefecture::Ibaraki => String::from("茨城県"),
             Prefecture::Tochigi => String::from("栃木県"),
