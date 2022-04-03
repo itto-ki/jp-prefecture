@@ -129,8 +129,56 @@ impl Prefecture {
         }
     }
 
-    fn kana(&self) -> String {
-        unimplemented!()
+    fn kana(&self) -> &'static str {
+        match self {
+            Prefecture::Hokkaido => "ほっかいどう",
+            Prefecture::Aomori => "あおもりけん",
+            Prefecture::Iwate => "いわてけん",
+            Prefecture::Miyagi => "みやぎけん",
+            Prefecture::Akita => "あきたけん",
+            Prefecture::Yamagata => "やまがたけん",
+            Prefecture::Fukushima => "ふくしまけん",
+            Prefecture::Ibaraki => "いばらきけん",
+            Prefecture::Tochigi => "とちぎけん",
+            Prefecture::Gunma => "ぐんまけん",
+            Prefecture::Saitama => "さいたまけん",
+            Prefecture::Chiba => "ちばけん",
+            Prefecture::Tokyo => "とうきょうと",
+            Prefecture::Kanagawa => "かながわけん",
+            Prefecture::Niigata => "にいがたけん",
+            Prefecture::Toyama => "とやまけん",
+            Prefecture::Ishikawa => "いしかわけん",
+            Prefecture::Fukui => "ふくいけん",
+            Prefecture::Yamanashi => "やまなしけん",
+            Prefecture::Nagano => "ながのけん",
+            Prefecture::Gifu => "ぎふけん",
+            Prefecture::Shizuoka => "しずおかけん",
+            Prefecture::Aichi => "あいちけん",
+            Prefecture::Mie => "みえけん",
+            Prefecture::Shiga => "しがけん",
+            Prefecture::Kyoto => "きょうとふ",
+            Prefecture::Osaka => "おおさかふ",
+            Prefecture::Hyogo => "ひょうごけん",
+            Prefecture::Nara => "ならけん",
+            Prefecture::Wakayama => "わかやまけん",
+            Prefecture::Tottori => "とっとりけん",
+            Prefecture::Shimane => "しまねけん",
+            Prefecture::Okayama => "おかやまけん",
+            Prefecture::Hiroshima => "ひろしまけん",
+            Prefecture::Yamaguchi => "やまぐちけん",
+            Prefecture::Tokushima => "とくしまけん",
+            Prefecture::Kagawa => "かがわけん",
+            Prefecture::Ehime => "えひめけん",
+            Prefecture::Kochi => "こうちけん",
+            Prefecture::Fukuoka => "ふくおかけん",
+            Prefecture::Saga => "さがけん",
+            Prefecture::Nagasaki => "ながさきけん",
+            Prefecture::Kumamoto => "くまもとけん",
+            Prefecture::Oita => "おおいたけん",
+            Prefecture::Miyazaki => "みやざきけん",
+            Prefecture::Kagoshima => "かごしまけん",
+            Prefecture::Okinawa => "おきなわけん",
+        }
     }
 
     fn kana_short(&self) -> String {
