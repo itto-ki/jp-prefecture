@@ -108,9 +108,12 @@ impl Prefecture {
     }
 
     pub fn kanji_short(self) -> &'static str {
+        let kanji = self.kanji();
         match self {
-            Prefecture::Hokkaido => self.kanji(),
-            _ => self.kanji(),
+            Prefecture::Hokkaido => kanji,
+            Prefecture::Tokyo => kanji.trim_end_matches("都"),
+            Prefecture::Kyoto | Prefecture::Osaka => kanji.trim_end_matches("府"),
+            _ => self.kanji().trim_end_matches("県"),
         }
     }
 
