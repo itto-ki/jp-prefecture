@@ -51,10 +51,22 @@ pub enum Prefecture {
 }
 
 impl Prefecture {
+    /// Returns a prefecture code defined by a JIS X 0401
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// let hokkaido = Prefecture::Hokkaido();
+    ///
+    /// assert_eq!(hokkaido.jis_x0401_code(), 1);
+    /// ```
     pub fn jis_x_0401_code(self) -> u32 {
         self as u32
     }
 
+    ///
     pub fn kanji(self) -> &'static str {
         match self {
             Prefecture::Hokkaido => "北海道",
