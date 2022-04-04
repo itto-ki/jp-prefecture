@@ -83,6 +83,17 @@ impl Prefecture {
         PREFECTURE_MAP.get(&self).unwrap().kanji
     }
 
+    /// Return a short prefecture name in kanji
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// let tokyo = Prefecture::Tokyo;
+    ///
+    /// assert_eq!(tokyo.kanji_short(), "東京")
+    /// ```
     pub fn kanji_short(self) -> &'static str {
         let kanji = self.kanji();
         match self {
@@ -93,12 +104,34 @@ impl Prefecture {
         }
     }
 
-    fn hiragana(&self) -> &'static str {
+    /// Return a short prefecture name in hiragana
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// let tokyo = Prefecture::Tokyo;
+    ///
+    /// assert_eq!(tokyo.hiragana(), "とうきょうと")
+    /// ```
+    pub fn hiragana(&self) -> &'static str {
         let data = PREFECTURE_MAP.get(&self).unwrap();
         data.hiragana
     }
 
-    fn hiragana_short(&self) -> &'static str {
+    /// Return a short prefecture name in kanji
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// let tokyo = Prefecture::Tokyo;
+    ///
+    /// assert_eq!(tokyo.hiragana_short(), "とうきょう")
+    /// ```
+    pub fn hiragana_short(&self) -> &'static str {
         let hiragana = self.hiragana();
         match self {
             Prefecture::Hokkaido => hiragana,
