@@ -62,7 +62,7 @@ impl Prefecture {
     ///
     /// let hokkaido = Prefecture::Hokkaido;
     ///
-    /// assert_eq!(hokkaido.jis_x0401_code(), 1);
+    /// assert_eq!(hokkaido.jis_x_0401_code(), 1);
     /// ```
     pub fn jis_x_0401_code(self) -> u32 {
         self as u32
