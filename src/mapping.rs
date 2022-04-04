@@ -6,7 +6,7 @@ use crate::prefectures::Prefecture;
 pub(crate) struct PrefectureData {
     pub jis_x_0401_code: u32,
     pub kanji: &'static str,
-    pub kana: &'static str,
+    pub hiragana: &'static str,
     pub roma: &'static str,
 }
 
@@ -14,13 +14,13 @@ impl PrefectureData {
     fn new(
         jis_x_0401_code: u32,
         kanji: &'static str,
-        kana: &'static str,
+        hiragana: &'static str,
         roma: &'static str,
     ) -> Self {
         Self {
             jis_x_0401_code,
             kanji,
-            kana,
+            hiragana,
             roma,
         }
     }

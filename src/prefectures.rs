@@ -89,17 +89,23 @@ impl Prefecture {
             Prefecture::Hokkaido => kanji,
             Prefecture::Tokyo => kanji.trim_end_matches("都"),
             Prefecture::Kyoto | Prefecture::Osaka => kanji.trim_end_matches("府"),
-            _ => self.kanji().trim_end_matches("県"),
+            _ => kanji.trim_end_matches("県"),
         }
     }
 
     fn hiragana(&self) -> &'static str {
         let data = PREFECTURE_MAP.get(&self).unwrap();
-        data.kana
+        data.hiragana
     }
 
-    fn hiragana_short(&self) -> String {
-        unimplemented!()
+    fn hiragana_short(&self) -> &'static str {
+        let hiragana = self.hiragana();
+        match self {
+            Prefecture::Hokkaido => hiragana,
+            Prefecture::Tokyo => hiragana.trim_end_matches("と"),
+            Prefecture::Kyoto | Prefecture::Osaka => hiragana.trim_end_matches("ふ"),
+            _ => hiragana.trim_end_matches("けん"),
+        }
     }
 
     pub fn find_by_kanji(kanji: impl Into<String>) -> Self {
@@ -314,5 +320,56 @@ mod tests {
     #[test_case(Prefecture::Okinawa => "おきなわけん")]
     fn convert_to_hiragana(prefecture: Prefecture) -> &'static str {
         prefecture.hiragana()
+    }
+
+    #[test_case(Prefecture::Hokkaido => "ほっかいどう")]
+    #[test_case(Prefecture::Aomori => "あおもり")]
+    #[test_case(Prefecture::Iwate => "いわて")]
+    #[test_case(Prefecture::Miyagi => "みやぎ")]
+    #[test_case(Prefecture::Akita => "あきた")]
+    #[test_case(Prefecture::Yamagata => "やまがた")]
+    #[test_case(Prefecture::Fukushima => "ふくしま")]
+    #[test_case(Prefecture::Ibaraki => "いばらき")]
+    #[test_case(Prefecture::Tochigi => "とちぎ")]
+    #[test_case(Prefecture::Gunma => "ぐんま")]
+    #[test_case(Prefecture::Saitama => "さいたま")]
+    #[test_case(Prefecture::Chiba => "ちば")]
+    #[test_case(Prefecture::Tokyo => "とうきょう")]
+    #[test_case(Prefecture::Kanagawa => "かながわ")]
+    #[test_case(Prefecture::Niigata => "にいがた")]
+    #[test_case(Prefecture::Toyama => "とやま")]
+    #[test_case(Prefecture::Ishikawa => "いしかわ")]
+    #[test_case(Prefecture::Fukui => "ふくい")]
+    #[test_case(Prefecture::Yamanashi => "やまなし")]
+    #[test_case(Prefecture::Nagano => "ながの")]
+    #[test_case(Prefecture::Gifu => "ぎふ")]
+    #[test_case(Prefecture::Shizuoka => "しずおか")]
+    #[test_case(Prefecture::Aichi => "あいち")]
+    #[test_case(Prefecture::Mie => "みえ")]
+    #[test_case(Prefecture::Shiga => "しが")]
+    #[test_case(Prefecture::Kyoto => "きょうと")]
+    #[test_case(Prefecture::Osaka => "おおさか")]
+    #[test_case(Prefecture::Hyogo => "ひょうご")]
+    #[test_case(Prefecture::Nara => "なら")]
+    #[test_case(Prefecture::Wakayama => "わかやま")]
+    #[test_case(Prefecture::Tottori => "とっとり")]
+    #[test_case(Prefecture::Shimane => "しまね")]
+    #[test_case(Prefecture::Okayama => "おかやま")]
+    #[test_case(Prefecture::Hiroshima => "ひろしま")]
+    #[test_case(Prefecture::Yamaguchi => "やまぐち")]
+    #[test_case(Prefecture::Tokushima => "とくしま")]
+    #[test_case(Prefecture::Kagawa => "かがわ")]
+    #[test_case(Prefecture::Ehime => "えひめ")]
+    #[test_case(Prefecture::Kochi => "こうち")]
+    #[test_case(Prefecture::Fukuoka => "ふくおか")]
+    #[test_case(Prefecture::Saga => "さが")]
+    #[test_case(Prefecture::Nagasaki => "ながさき")]
+    #[test_case(Prefecture::Kumamoto => "くまもと")]
+    #[test_case(Prefecture::Oita => "おおいた")]
+    #[test_case(Prefecture::Miyazaki => "みやざき")]
+    #[test_case(Prefecture::Kagoshima => "かごしま")]
+    #[test_case(Prefecture::Okinawa => "おきなわ")]
+    fn convert_to_hiragana_short(prefecture: Prefecture) -> &'static str {
+        prefecture.hiragana_short()
     }
 }
