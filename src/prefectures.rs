@@ -93,12 +93,12 @@ impl Prefecture {
         }
     }
 
-    fn kana(&self) -> &'static str {
+    fn hiragana(&self) -> &'static str {
         let data = PREFECTURE_MAP.get(&self).unwrap();
         data.kana
     }
 
-    fn kana_short(&self) -> String {
+    fn hiragana_short(&self) -> String {
         unimplemented!()
     }
 
@@ -312,7 +312,7 @@ mod tests {
     #[test_case(Prefecture::Miyazaki => "みやざきけん")]
     #[test_case(Prefecture::Kagoshima => "かごしまけん")]
     #[test_case(Prefecture::Okinawa => "おきなわけん")]
-    fn convert_to_kana(prefecture: Prefecture) -> &'static str {
-        prefecture.kana()
+    fn convert_to_hiragana(prefecture: Prefecture) -> &'static str {
+        prefecture.hiragana()
     }
 }
