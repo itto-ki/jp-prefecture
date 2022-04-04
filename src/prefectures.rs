@@ -1,5 +1,7 @@
+use crate::mapping::PREFECTURE_MAP;
+
 /// Japanese prefectures
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Prefecture {
     Hokkaido = 1,
     Aomori = 2,
@@ -58,7 +60,7 @@ impl Prefecture {
     /// ```
     /// use jp_prefecture::prefectures::Prefecture;
     ///
-    /// let hokkaido = Prefecture::Hokkaido();
+    /// let hokkaido = Prefecture::Hokkaido;
     ///
     /// assert_eq!(hokkaido.jis_x0401_code(), 1);
     /// ```
@@ -66,57 +68,19 @@ impl Prefecture {
         self as u32
     }
 
+    /// Returns a prefecture name in kanji
     ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// let tokyo = Prefecture::Tokyo;
+    ///
+    /// assert_eq!(tokyo.kanji(), "東京都")
+    /// ```
     pub fn kanji(self) -> &'static str {
-        match self {
-            Prefecture::Hokkaido => "北海道",
-            Prefecture::Aomori => "青森県",
-            Prefecture::Iwate => "岩手県",
-            Prefecture::Miyagi => "宮城県",
-            Prefecture::Akita => "秋田県",
-            Prefecture::Yamagata => "山形県",
-            Prefecture::Fukushima => "福島県",
-            Prefecture::Ibaraki => "茨城県",
-            Prefecture::Tochigi => "栃木県",
-            Prefecture::Gunma => "群馬県",
-            Prefecture::Saitama => "埼玉県",
-            Prefecture::Chiba => "千葉県",
-            Prefecture::Tokyo => "東京都",
-            Prefecture::Kanagawa => "神奈川県",
-            Prefecture::Niigata => "新潟県",
-            Prefecture::Toyama => "富山県",
-            Prefecture::Ishikawa => "石川県",
-            Prefecture::Fukui => "福井県",
-            Prefecture::Yamanashi => "山梨県",
-            Prefecture::Nagano => "長野県",
-            Prefecture::Gifu => "岐阜県",
-            Prefecture::Shizuoka => "静岡県",
-            Prefecture::Aichi => "愛知県",
-            Prefecture::Mie => "三重県",
-            Prefecture::Shiga => "滋賀県",
-            Prefecture::Kyoto => "京都府",
-            Prefecture::Osaka => "大阪府",
-            Prefecture::Hyogo => "兵庫県",
-            Prefecture::Nara => "奈良県",
-            Prefecture::Wakayama => "和歌山県",
-            Prefecture::Tottori => "鳥取県",
-            Prefecture::Shimane => "島根県",
-            Prefecture::Okayama => "岡山県",
-            Prefecture::Hiroshima => "広島県",
-            Prefecture::Yamaguchi => "山口県",
-            Prefecture::Tokushima => "徳島県",
-            Prefecture::Kagawa => "香川県",
-            Prefecture::Ehime => "愛媛県",
-            Prefecture::Kochi => "高知県",
-            Prefecture::Fukuoka => "福岡県",
-            Prefecture::Saga => "佐賀県",
-            Prefecture::Nagasaki => "長崎県",
-            Prefecture::Kumamoto => "熊本県",
-            Prefecture::Oita => "大分県",
-            Prefecture::Miyazaki => "宮崎県",
-            Prefecture::Kagoshima => "鹿児島県",
-            Prefecture::Okinawa => "沖縄県",
-        }
+        PREFECTURE_MAP.get(&self).unwrap().kanji
     }
 
     pub fn kanji_short(self) -> &'static str {
@@ -130,58 +94,15 @@ impl Prefecture {
     }
 
     fn kana(&self) -> &'static str {
-        match self {
-            Prefecture::Hokkaido => "ほっかいどう",
-            Prefecture::Aomori => "あおもりけん",
-            Prefecture::Iwate => "いわてけん",
-            Prefecture::Miyagi => "みやぎけん",
-            Prefecture::Akita => "あきたけん",
-            Prefecture::Yamagata => "やまがたけん",
-            Prefecture::Fukushima => "ふくしまけん",
-            Prefecture::Ibaraki => "いばらきけん",
-            Prefecture::Tochigi => "とちぎけん",
-            Prefecture::Gunma => "ぐんまけん",
-            Prefecture::Saitama => "さいたまけん",
-            Prefecture::Chiba => "ちばけん",
-            Prefecture::Tokyo => "とうきょうと",
-            Prefecture::Kanagawa => "かながわけん",
-            Prefecture::Niigata => "にいがたけん",
-            Prefecture::Toyama => "とやまけん",
-            Prefecture::Ishikawa => "いしかわけん",
-            Prefecture::Fukui => "ふくいけん",
-            Prefecture::Yamanashi => "やまなしけん",
-            Prefecture::Nagano => "ながのけん",
-            Prefecture::Gifu => "ぎふけん",
-            Prefecture::Shizuoka => "しずおかけん",
-            Prefecture::Aichi => "あいちけん",
-            Prefecture::Mie => "みえけん",
-            Prefecture::Shiga => "しがけん",
-            Prefecture::Kyoto => "きょうとふ",
-            Prefecture::Osaka => "おおさかふ",
-            Prefecture::Hyogo => "ひょうごけん",
-            Prefecture::Nara => "ならけん",
-            Prefecture::Wakayama => "わかやまけん",
-            Prefecture::Tottori => "とっとりけん",
-            Prefecture::Shimane => "しまねけん",
-            Prefecture::Okayama => "おかやまけん",
-            Prefecture::Hiroshima => "ひろしまけん",
-            Prefecture::Yamaguchi => "やまぐちけん",
-            Prefecture::Tokushima => "とくしまけん",
-            Prefecture::Kagawa => "かがわけん",
-            Prefecture::Ehime => "えひめけん",
-            Prefecture::Kochi => "こうちけん",
-            Prefecture::Fukuoka => "ふくおかけん",
-            Prefecture::Saga => "さがけん",
-            Prefecture::Nagasaki => "ながさきけん",
-            Prefecture::Kumamoto => "くまもとけん",
-            Prefecture::Oita => "おおいたけん",
-            Prefecture::Miyazaki => "みやざきけん",
-            Prefecture::Kagoshima => "かごしまけん",
-            Prefecture::Okinawa => "おきなわけん",
-        }
+        let data = PREFECTURE_MAP.get(&self).unwrap();
+        data.kana
     }
 
     fn kana_short(&self) -> String {
+        unimplemented!()
+    }
+
+    pub fn find_by_kanji(kanji: impl Into<String>) -> Self {
         unimplemented!()
     }
 }
@@ -190,6 +111,57 @@ impl Prefecture {
 mod tests {
     use super::*;
     use test_case::test_case;
+
+    #[test_case(Prefecture::Hokkaido => 1)]
+    #[test_case(Prefecture::Aomori => 2)]
+    #[test_case(Prefecture::Iwate => 3)]
+    #[test_case(Prefecture::Miyagi => 4)]
+    #[test_case(Prefecture::Akita => 5)]
+    #[test_case(Prefecture::Yamagata => 6)]
+    #[test_case(Prefecture::Fukushima => 7)]
+    #[test_case(Prefecture::Ibaraki => 8)]
+    #[test_case(Prefecture::Tochigi => 9)]
+    #[test_case(Prefecture::Gunma => 10)]
+    #[test_case(Prefecture::Saitama => 11)]
+    #[test_case(Prefecture::Chiba => 12)]
+    #[test_case(Prefecture::Tokyo => 13)]
+    #[test_case(Prefecture::Kanagawa => 14)]
+    #[test_case(Prefecture::Niigata => 15)]
+    #[test_case(Prefecture::Toyama => 16)]
+    #[test_case(Prefecture::Ishikawa => 17)]
+    #[test_case(Prefecture::Fukui => 18)]
+    #[test_case(Prefecture::Yamanashi => 19)]
+    #[test_case(Prefecture::Nagano => 20)]
+    #[test_case(Prefecture::Gifu => 21)]
+    #[test_case(Prefecture::Shizuoka => 22)]
+    #[test_case(Prefecture::Aichi => 23)]
+    #[test_case(Prefecture::Mie => 24)]
+    #[test_case(Prefecture::Shiga => 25)]
+    #[test_case(Prefecture::Kyoto => 26)]
+    #[test_case(Prefecture::Osaka => 27)]
+    #[test_case(Prefecture::Hyogo => 28)]
+    #[test_case(Prefecture::Nara => 29)]
+    #[test_case(Prefecture::Wakayama => 30)]
+    #[test_case(Prefecture::Tottori => 31)]
+    #[test_case(Prefecture::Shimane => 32)]
+    #[test_case(Prefecture::Okayama => 33)]
+    #[test_case(Prefecture::Hiroshima => 34)]
+    #[test_case(Prefecture::Yamaguchi => 35)]
+    #[test_case(Prefecture::Tokushima => 36)]
+    #[test_case(Prefecture::Kagawa => 37)]
+    #[test_case(Prefecture::Ehime => 38)]
+    #[test_case(Prefecture::Kochi => 39)]
+    #[test_case(Prefecture::Fukuoka => 40)]
+    #[test_case(Prefecture::Saga => 41)]
+    #[test_case(Prefecture::Nagasaki => 42)]
+    #[test_case(Prefecture::Kumamoto => 43)]
+    #[test_case(Prefecture::Oita => 44)]
+    #[test_case(Prefecture::Miyazaki => 45)]
+    #[test_case(Prefecture::Kagoshima => 46)]
+    #[test_case(Prefecture::Okinawa => 47)]
+    fn converts_to_jis_x_0401_code(prefecture: Prefecture) -> u32 {
+        prefecture.jis_x_0401_code()
+    }
 
     #[test_case(Prefecture::Hokkaido => "北海道")]
     #[test_case(Prefecture::Aomori => "青森県")]

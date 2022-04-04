@@ -12,6 +12,7 @@
 //! use jp_prefecture::prefecture;
 //! ```
 
+mod mapping;
 pub mod prefectures;
 
 #[cfg(test)]
