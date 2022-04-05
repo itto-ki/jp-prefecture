@@ -427,7 +427,7 @@ pub(crate) static PREFECTURE_MAP: Lazy<HashMap<Prefecture, PrefectureData>> = La
             Prefecture::Fukuoka as u32,
             "福岡県",
             "ふくおかけん",
-            "フクシマケン",
+            "フクオカケン",
             "fukuoka",
         ),
     );
