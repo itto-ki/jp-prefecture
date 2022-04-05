@@ -172,8 +172,8 @@ impl Prefecture {
     /// ```
     /// use jp_prefecture::prefectures::Prefecture;
     ///
-    /// assert_eq!(Prefecture::find_by_kanji("東京都"), Some(Prefecture::Tokyo))
-    /// assert_eq!(Prefecture::find_by_kanji("東京"), Some(Prefecture::Tokyo))
+    /// assert_eq!(Prefecture::find_by_kanji("東京都"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_kanji("東京"), Some(Prefecture::Tokyo));
     /// ```
     pub fn find_by_kanji(kanji: &'static str) -> Option<Self> {
         let mut map: HashMap<&str, Prefecture> = HashMap::new();
