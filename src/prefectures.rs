@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::mapping::PREFECTURE_MAP;
 
 /// Japanese prefectures
@@ -77,10 +79,10 @@ impl Prefecture {
     ///
     /// let tokyo = Prefecture::Tokyo;
     ///
-    /// assert_eq!(tokyo.kanji(), "東京都")
+    /// assert_eq!(tokyo.kanji(), "東京都");
     /// ```
     pub fn kanji(self) -> &'static str {
-        PREFECTURE_MAP.get(&self).unwrap().kanji
+        PREFECTURE_MAP.get(&self).expect("Unexpected error").kanji
     }
 
     /// Return a short prefecture name in kanji
@@ -92,7 +94,7 @@ impl Prefecture {
     ///
     /// let tokyo = Prefecture::Tokyo;
     ///
-    /// assert_eq!(tokyo.kanji_short(), "東京")
+    /// assert_eq!(tokyo.kanji_short(), "東京");
     /// ```
     pub fn kanji_short(self) -> &'static str {
         let kanji = self.kanji();
@@ -113,11 +115,13 @@ impl Prefecture {
     ///
     /// let tokyo = Prefecture::Tokyo;
     ///
-    /// assert_eq!(tokyo.hiragana(), "とうきょうと")
+    /// assert_eq!(tokyo.hiragana(), "とうきょうと");
     /// ```
     pub fn hiragana(&self) -> &'static str {
-        let data = PREFECTURE_MAP.get(&self).unwrap();
-        data.hiragana
+        PREFECTURE_MAP
+            .get(&self)
+            .expect("Unexpected error")
+            .hiragana
     }
 
     /// Return a short prefecture name in kanji
@@ -129,7 +133,7 @@ impl Prefecture {
     ///
     /// let tokyo = Prefecture::Tokyo;
     ///
-    /// assert_eq!(tokyo.hiragana_short(), "とうきょう")
+    /// assert_eq!(tokyo.hiragana_short(), "とうきょう");
     /// ```
     pub fn hiragana_short(&self) -> &'static str {
         let hiragana = self.hiragana();

@@ -7,7 +7,7 @@ pub(crate) struct PrefectureData {
     pub jis_x_0401_code: u32,
     pub kanji: &'static str,
     pub hiragana: &'static str,
-    pub roma: &'static str,
+    pub romaji: &'static str,
 }
 
 impl PrefectureData {
@@ -15,13 +15,13 @@ impl PrefectureData {
         jis_x_0401_code: u32,
         kanji: &'static str,
         hiragana: &'static str,
-        roma: &'static str,
+        romaji: &'static str,
     ) -> Self {
         Self {
             jis_x_0401_code,
             kanji,
             hiragana,
-            roma,
+            romaji,
         }
     }
 }
