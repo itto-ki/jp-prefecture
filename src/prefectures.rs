@@ -145,8 +145,43 @@ impl Prefecture {
         }
     }
 
-    pub fn find_by_kanji(kanji: impl Into<String>) -> Self {
+    /// Return a prefecture name in romaji
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// let tokyo = Prefecture::Tokyo;
+    ///
+    /// assert_eq!(tokyo.romaji(), "tokyo");
+    /// ```
+    pub fn romaji(&self) -> &'static str {
+        PREFECTURE_MAP.get(&self).expect("Unexpected error").romaji
+    }
+
+    /// Return iterator of all prefectures
+    pub fn all() {
         unimplemented!()
+    }
+
+    /// Return a short prefecture name in kanji
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// assert_eq!(Prefecture::find_by_kanji("東京都"), Some(Prefecture::Tokyo))
+    /// assert_eq!(Prefecture::find_by_kanji("東京"), Some(Prefecture::Tokyo))
+    /// ```
+    pub fn find_by_kanji(kanji: &'static str) -> Option<Self> {
+        let mut map: HashMap<&str, Prefecture> = HashMap::new();
+        PREFECTURE_MAP.iter().for_each(|(pref, _)| {
+            map.insert(pref.kanji(), *pref);
+            map.insert(pref.kanji_short(), *pref);
+        });
+        map.get(kanji).map(|result| *result)
     }
 }
 
@@ -202,7 +237,7 @@ mod tests {
     #[test_case(Prefecture::Miyazaki => 45)]
     #[test_case(Prefecture::Kagoshima => 46)]
     #[test_case(Prefecture::Okinawa => 47)]
-    fn converts_to_jis_x_0401_code(prefecture: Prefecture) -> u32 {
+    fn jis_x_0401_code_tests(prefecture: Prefecture) -> u32 {
         prefecture.jis_x_0401_code()
     }
 
@@ -253,7 +288,7 @@ mod tests {
     #[test_case(Prefecture::Miyazaki => "宮崎県")]
     #[test_case(Prefecture::Kagoshima => "鹿児島県")]
     #[test_case(Prefecture::Okinawa => "沖縄県")]
-    fn converts_to_kanji(prefecture: Prefecture) -> &'static str {
+    fn kanji_tests(prefecture: Prefecture) -> &'static str {
         prefecture.kanji()
     }
 
@@ -304,7 +339,7 @@ mod tests {
     #[test_case(Prefecture::Miyazaki => "宮崎")]
     #[test_case(Prefecture::Kagoshima => "鹿児島")]
     #[test_case(Prefecture::Okinawa => "沖縄")]
-    fn converts_to_kanji_short(prefecture: Prefecture) -> &'static str {
+    fn kanji_short_tests(prefecture: Prefecture) -> &'static str {
         prefecture.kanji_short()
     }
 
@@ -355,7 +390,7 @@ mod tests {
     #[test_case(Prefecture::Miyazaki => "みやざきけん")]
     #[test_case(Prefecture::Kagoshima => "かごしまけん")]
     #[test_case(Prefecture::Okinawa => "おきなわけん")]
-    fn convert_to_hiragana(prefecture: Prefecture) -> &'static str {
+    fn hiragana_tests(prefecture: Prefecture) -> &'static str {
         prefecture.hiragana()
     }
 
@@ -406,7 +441,105 @@ mod tests {
     #[test_case(Prefecture::Miyazaki => "みやざき")]
     #[test_case(Prefecture::Kagoshima => "かごしま")]
     #[test_case(Prefecture::Okinawa => "おきなわ")]
-    fn convert_to_hiragana_short(prefecture: Prefecture) -> &'static str {
+    fn hiragana_short_tests(prefecture: Prefecture) -> &'static str {
         prefecture.hiragana_short()
+    }
+
+    #[test_case("北海道" => Some(Prefecture::Hokkaido))]
+    #[test_case("青森県" => Some(Prefecture::Aomori))]
+    #[test_case("青森" => Some(Prefecture::Aomori))]
+    #[test_case("岩手県" => Some(Prefecture::Iwate))]
+    #[test_case("岩手" => Some(Prefecture::Iwate))]
+    #[test_case("宮城県" => Some(Prefecture::Miyagi))]
+    #[test_case("宮城" => Some(Prefecture::Miyagi))]
+    #[test_case("秋田県" => Some(Prefecture::Akita))]
+    #[test_case("秋田" => Some(Prefecture::Akita))]
+    #[test_case("山形県" => Some(Prefecture::Yamagata))]
+    #[test_case("山形" => Some(Prefecture::Yamagata))]
+    #[test_case("福島県" => Some(Prefecture::Fukushima))]
+    #[test_case("福島" => Some(Prefecture::Fukushima))]
+    #[test_case("茨城県" => Some(Prefecture::Ibaraki))]
+    #[test_case("茨城" => Some(Prefecture::Ibaraki))]
+    #[test_case("栃木県" => Some(Prefecture::Tochigi))]
+    #[test_case("栃木" => Some(Prefecture::Tochigi))]
+    #[test_case("群馬県" => Some(Prefecture::Gunma))]
+    #[test_case("群馬" => Some(Prefecture::Gunma))]
+    #[test_case("埼玉県" => Some(Prefecture::Saitama))]
+    #[test_case("埼玉" => Some(Prefecture::Saitama))]
+    #[test_case("千葉県" => Some(Prefecture::Chiba))]
+    #[test_case("千葉" => Some(Prefecture::Chiba))]
+    #[test_case("東京都" => Some(Prefecture::Tokyo))]
+    #[test_case("東京" => Some(Prefecture::Tokyo))]
+    #[test_case("神奈川県" => Some(Prefecture::Kanagawa))]
+    #[test_case("神奈川" => Some(Prefecture::Kanagawa))]
+    #[test_case("新潟県" => Some(Prefecture::Niigata))]
+    #[test_case("新潟" => Some(Prefecture::Niigata))]
+    #[test_case("富山県" => Some(Prefecture::Toyama))]
+    #[test_case("富山" => Some(Prefecture::Toyama))]
+    #[test_case("石川県" => Some(Prefecture::Ishikawa))]
+    #[test_case("石川" => Some(Prefecture::Ishikawa))]
+    #[test_case("福井県" => Some(Prefecture::Fukui))]
+    #[test_case("福井" => Some(Prefecture::Fukui))]
+    #[test_case("山梨県" => Some(Prefecture::Yamanashi))]
+    #[test_case("山梨" => Some(Prefecture::Yamanashi))]
+    #[test_case("長野県" => Some(Prefecture::Nagano))]
+    #[test_case("長野" => Some(Prefecture::Nagano))]
+    #[test_case("岐阜県" => Some(Prefecture::Gifu))]
+    #[test_case("岐阜" => Some(Prefecture::Gifu))]
+    #[test_case("静岡県" => Some(Prefecture::Shizuoka))]
+    #[test_case("静岡" => Some(Prefecture::Shizuoka))]
+    #[test_case("愛知県" => Some(Prefecture::Aichi))]
+    #[test_case("愛知" => Some(Prefecture::Aichi))]
+    #[test_case("三重県" => Some(Prefecture::Mie))]
+    #[test_case("三重" => Some(Prefecture::Mie))]
+    #[test_case("滋賀県" => Some(Prefecture::Shiga))]
+    #[test_case("滋賀" => Some(Prefecture::Shiga))]
+    #[test_case("京都府" => Some(Prefecture::Kyoto))]
+    #[test_case("京都" => Some(Prefecture::Kyoto))]
+    #[test_case("大阪府" => Some(Prefecture::Osaka))]
+    #[test_case("大阪" => Some(Prefecture::Osaka))]
+    #[test_case("兵庫県" => Some(Prefecture::Hyogo))]
+    #[test_case("兵庫" => Some(Prefecture::Hyogo))]
+    #[test_case("奈良県" => Some(Prefecture::Nara))]
+    #[test_case("奈良" => Some(Prefecture::Nara))]
+    #[test_case("和歌山県" => Some(Prefecture::Wakayama))]
+    #[test_case("和歌山" => Some(Prefecture::Wakayama))]
+    #[test_case("鳥取県" => Some(Prefecture::Tottori))]
+    #[test_case("鳥取" => Some(Prefecture::Tottori))]
+    #[test_case("島根県" => Some(Prefecture::Shimane))]
+    #[test_case("島根" => Some(Prefecture::Shimane))]
+    #[test_case("岡山県" => Some(Prefecture::Okayama))]
+    #[test_case("岡山" => Some(Prefecture::Okayama))]
+    #[test_case("広島県" => Some(Prefecture::Hiroshima))]
+    #[test_case("広島" => Some(Prefecture::Hiroshima))]
+    #[test_case("山口県" => Some(Prefecture::Yamaguchi))]
+    #[test_case("山口" => Some(Prefecture::Yamaguchi))]
+    #[test_case("徳島県" => Some(Prefecture::Tokushima))]
+    #[test_case("徳島" => Some(Prefecture::Tokushima))]
+    #[test_case("香川県" => Some(Prefecture::Kagawa))]
+    #[test_case("香川" => Some(Prefecture::Kagawa))]
+    #[test_case("愛媛県" => Some(Prefecture::Ehime))]
+    #[test_case("愛媛" => Some(Prefecture::Ehime))]
+    #[test_case("高知県" => Some(Prefecture::Kochi))]
+    #[test_case("高知" => Some(Prefecture::Kochi))]
+    #[test_case("福岡県" => Some(Prefecture::Fukuoka))]
+    #[test_case("福岡" => Some(Prefecture::Fukuoka))]
+    #[test_case("佐賀県" => Some(Prefecture::Saga))]
+    #[test_case("佐賀" => Some(Prefecture::Saga))]
+    #[test_case("長崎県" => Some(Prefecture::Nagasaki))]
+    #[test_case("長崎" => Some(Prefecture::Nagasaki))]
+    #[test_case("熊本県" => Some(Prefecture::Kumamoto))]
+    #[test_case("熊本" => Some(Prefecture::Kumamoto))]
+    #[test_case("大分県" => Some(Prefecture::Oita))]
+    #[test_case("大分" => Some(Prefecture::Oita))]
+    #[test_case("宮崎県" => Some(Prefecture::Miyazaki))]
+    #[test_case("宮崎" => Some(Prefecture::Miyazaki))]
+    #[test_case("鹿児島県" => Some(Prefecture::Kagoshima))]
+    #[test_case("鹿児島" => Some(Prefecture::Kagoshima))]
+    #[test_case("沖縄県" => Some(Prefecture::Okinawa))]
+    #[test_case("沖縄" => Some(Prefecture::Okinawa))]
+    #[test_case("None" => None)]
+    fn find_by_kanji_tests(kanji: &'static str) -> Option<Prefecture> {
+        Prefecture::find_by_kanji(kanji)
     }
 }
