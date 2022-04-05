@@ -208,8 +208,9 @@ impl Prefecture {
     ///
     /// assert_eq!(Prefecture::find_by_kanji("東京都"), Some(Prefecture::Tokyo));
     /// assert_eq!(Prefecture::find_by_kanji("東京"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_kanji("東京県"), None);
     /// ```
-    pub fn find_by_kanji(kanji: &'static str) -> Option<Self> {
+    pub fn find_by_kanji(kanji: &str) -> Option<Self> {
         let mut map: HashMap<&str, Prefecture> = HashMap::new();
         PREFECTURE_MAP.iter().for_each(|(pref, _)| {
             map.insert(pref.kanji(), *pref);
@@ -227,8 +228,9 @@ impl Prefecture {
     ///
     /// assert_eq!(Prefecture::find_by_hiragana("とうきょうと"), Some(Prefecture::Tokyo));
     /// assert_eq!(Prefecture::find_by_hiragana("とうきょう"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_hiragana("とうきょうけん"), None);
     /// ```
-    pub fn find_by_hiragana(hiragana: &'static str) -> Option<Self> {
+    pub fn find_by_hiragana(hiragana: &str) -> Option<Self> {
         let mut map: HashMap<&str, Prefecture> = HashMap::new();
         PREFECTURE_MAP.iter().for_each(|(pref, _)| {
             map.insert(pref.hiragana(), *pref);
@@ -246,8 +248,9 @@ impl Prefecture {
     ///
     /// assert_eq!(Prefecture::find_by_katakana("トウキョウト"), Some(Prefecture::Tokyo));
     /// assert_eq!(Prefecture::find_by_katakana("トウキョウ"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_katakana("トウキョウケン"), None);
     /// ```
-    pub fn find_by_katakana(katakana: &'static str) -> Option<Self> {
+    pub fn find_by_katakana(katakana: &str) -> Option<Self> {
         let mut map: HashMap<&str, Prefecture> = HashMap::new();
         PREFECTURE_MAP.iter().for_each(|(pref, _)| {
             map.insert(pref.katakana(), *pref);
