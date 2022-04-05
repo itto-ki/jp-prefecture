@@ -215,7 +215,7 @@ impl Prefecture {
             map.insert(pref.kanji(), *pref);
             map.insert(pref.kanji_short(), *pref);
         });
-        map.get(kanji).map(|result| *result)
+        map.get(kanji).map(|pref| *pref)
     }
 
     /// Find a prefecture by name in hiragana
@@ -234,7 +234,26 @@ impl Prefecture {
             map.insert(pref.hiragana(), *pref);
             map.insert(pref.hiragana_short(), *pref);
         });
-        map.get(hiragana).map(|result| *result)
+        map.get(hiragana).map(|pref| *pref)
+    }
+
+    /// Find a prefecture by name in katakana
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// assert_eq!(Prefecture::find_by_katakana("トウキョウト"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_katakana("トウキョウ"), Some(Prefecture::Tokyo));
+    /// ```
+    pub fn find_by_katakana(katakana: &'static str) -> Option<Self> {
+        let mut map: HashMap<&str, Prefecture> = HashMap::new();
+        PREFECTURE_MAP.iter().for_each(|(pref, _)| {
+            map.insert(pref.katakana(), *pref);
+            map.insert(pref.katakana_short(), *pref);
+        });
+        map.get(katakana).map(|pref| *pref)
     }
 }
 
