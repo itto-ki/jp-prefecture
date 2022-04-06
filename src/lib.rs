@@ -11,6 +11,17 @@
 //! ```rust
 //! use jp_prefecture::prefectures;
 //! ```
+//!
+//! # Examples
+//! ```
+//! use jp_prefecture::prefectures::Prefecture;
+//!
+//! let tokyo = Prefecture::find_by_kanji("東京都");
+//! println!("{}", tokyo.unwrap().english()); // => "tokyo"
+//!
+//! let tokyo = Prefecture::find_by_hiragana("とうきょうけん"); // uhmmmm...
+//! println!("{:?}", tokyo); // => None
+//! ```
 
 mod mapping;
 pub mod prefectures;

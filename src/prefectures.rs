@@ -1,8 +1,28 @@
+//! japanese prefectures
+//!
+//! # Examples
+//!
+//! ```
+//! use jp_prefecture::prefectures::Prefecture;
+//!
+//! let tokyo = Prefecture::find_by_kanji("東京都");
+//!
+//! assert_eq!(tokyo, Some(Prefecture::Tokyo));
+//! assert_eq!(tokyo.unwrap().kanji(), "東京都");
+//! assert_eq!(tokyo.unwrap().kanji_short(), "東京");
+//! assert_eq!(tokyo.unwrap().kanji_short(), "東京");
+//! assert_eq!(tokyo.unwrap().hiragana(), "とうきょうと");
+//! assert_eq!(tokyo.unwrap().hiragana_short(), "とうきょう");
+//! assert_eq!(tokyo.unwrap().katakana(), "トウキョウト");
+//! assert_eq!(tokyo.unwrap().katakana_short(), "トウキョウ");
+//! assert_eq!(tokyo.unwrap().english(), "tokyo");
+//! ```
+
 use std::collections::HashMap;
 
 use crate::mapping::PREFECTURE_MAP;
 
-/// Japanese prefectures
+/// A value of japanese prefecture
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Prefecture {
     Hokkaido = 1,
@@ -62,9 +82,9 @@ impl Prefecture {
     /// ```
     /// use jp_prefecture::prefectures::Prefecture;
     ///
-    /// let hokkaido = Prefecture::Hokkaido;
+    /// let tokyo = Prefecture::Tokyo;
     ///
-    /// assert_eq!(hokkaido.jis_x_0401_code(), 1);
+    /// assert_eq!(tokyo.jis_x_0401_code(), 13);
     /// ```
     pub fn jis_x_0401_code(self) -> u32 {
         self as u32
