@@ -184,7 +184,7 @@ impl Prefecture {
         }
     }
 
-    /// Return a prefecture name in romaji
+    /// Return a prefecture name in english
     ///
     /// # Examples
     ///
@@ -259,7 +259,7 @@ impl Prefecture {
         map.get(katakana).map(|pref| *pref)
     }
 
-    /// Find a prefecture by name in romaji
+    /// Find a prefecture by name in english
     ///
     /// # Examples
     ///
@@ -267,12 +267,14 @@ impl Prefecture {
     /// use jp_prefecture::prefectures::Prefecture;
     ///
     /// assert_eq!(Prefecture::find_by_english("tokyo"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_english("Tokyo"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_english("tOkYo"), Some(Prefecture::Tokyo));
     /// assert_eq!(Prefecture::find_by_english("tokyo~~~"), None);
     /// ```
     pub fn find_by_english(english: &str) -> Option<Self> {
         PREFECTURE_MAP
             .iter()
-            .find(|(_, data)| data.english == english)
+            .find(|(_, data)| data.english == &english.to_ascii_lowercase())
             .map(|(pref, _)| *pref)
     }
 }
