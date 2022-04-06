@@ -19,8 +19,10 @@
 //! ```
 
 use std::collections::HashMap;
+use std::str::FromStr;
 
 use crate::mapping::PREFECTURE_MAP;
+use crate::Error;
 
 /// A value of japanese prefecture
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -296,6 +298,46 @@ impl Prefecture {
             .iter()
             .find(|(_, data)| data.english == &english.to_ascii_lowercase())
             .map(|(pref, _)| *pref)
+    }
+
+    /// Find a prefecture by name
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// assert_eq!(Prefecture::find("東京都"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find("東京"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find("とうきょうと"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find("とうきょう"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find("トウキョウト"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find("トウキョウ"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find("tokyo"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find("none"), None);
+    /// ```
+    pub fn find(s: &str) -> Option<Self> {
+        Self::from_str(s).ok()
+    }
+}
+
+impl FromStr for Prefecture {
+    type Err = Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let mut map: HashMap<&str, Prefecture> = HashMap::new();
+        PREFECTURE_MAP.iter().for_each(|(pref, _)| {
+            map.insert(pref.kanji(), *pref);
+            map.insert(pref.kanji_short(), *pref);
+            map.insert(pref.hiragana(), *pref);
+            map.insert(pref.hiragana_short(), *pref);
+            map.insert(pref.katakana(), *pref);
+            map.insert(pref.katakana_short(), *pref);
+            map.insert(pref.english(), *pref);
+        });
+        map.get(s.to_ascii_lowercase().as_str())
+            .map(|pref| *pref)
+            .ok_or(Self::Err::ParseError(s.to_string()))
     }
 }
 
@@ -1056,5 +1098,31 @@ mod tests {
     #[test_case("None" => None)]
     fn find_by_english_tests(katakana: &'static str) -> Option<Prefecture> {
         Prefecture::find_by_english(katakana)
+    }
+
+    #[test_case("東京都" => Some(Prefecture::Tokyo))]
+    #[test_case("東京" => Some(Prefecture::Tokyo))]
+    #[test_case("とうきょうと" => Some(Prefecture::Tokyo))]
+    #[test_case("とうきょう" => Some(Prefecture::Tokyo))]
+    #[test_case("トウキョウト" => Some(Prefecture::Tokyo))]
+    #[test_case("トウキョウ" => Some(Prefecture::Tokyo))]
+    #[test_case("tokyo" => Some(Prefecture::Tokyo))]
+    #[test_case("HoKkaido" => Some(Prefecture::Hokkaido))]
+    #[test_case("none" => None)]
+    fn find_tests(s: &str) -> Option<Prefecture> {
+        Prefecture::find(s)
+    }
+
+    #[test_case("東京都" => Ok(Prefecture::Tokyo))]
+    #[test_case("東京" => Ok(Prefecture::Tokyo))]
+    #[test_case("とうきょうと" => Ok(Prefecture::Tokyo))]
+    #[test_case("とうきょう" => Ok(Prefecture::Tokyo))]
+    #[test_case("トウキョウト" => Ok(Prefecture::Tokyo))]
+    #[test_case("トウキョウ" => Ok(Prefecture::Tokyo))]
+    #[test_case("tokyo" => Ok(Prefecture::Tokyo))]
+    #[test_case("HoKkaido" => Ok(Prefecture::Hokkaido))]
+    #[test_case("error" => Err(Error::ParseError("error".to_string())))]
+    fn from_str_tests(s: &str) -> Result<Prefecture, Error> {
+        Prefecture::from_str(s)
     }
 }

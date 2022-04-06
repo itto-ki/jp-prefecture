@@ -23,14 +23,15 @@
 //! println!("{:?}", tokyo); // => None
 //! ```
 
+use thiserror;
+
 mod mapping;
 pub mod prefectures;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
+/// Represents errors that can occur using prefectures
+#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
+pub enum Error {
+    /// a prefecture name cannot be parsed
+    #[error("Failed conversion to prefecture: {0}")]
+    ParseError(String),
 }
