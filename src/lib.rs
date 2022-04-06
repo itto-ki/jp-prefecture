@@ -14,12 +14,12 @@
 //!
 //! # Examples
 //! ```
-//! use jp_prefecture::prefectures::Prefecture;
+//! use jp_prefecture::prefectures;
 //!
-//! let tokyo = Prefecture::find_by_kanji("東京都");
-//! println!("{}", tokyo.unwrap().english()); // => "tokyo"
+//! let tokyo = prefectures::find_by_kanji("東京都");
+//! println!("{:?}", tokyo.unwrap().english()); // => "tokyo"
 //!
-//! let tokyo = Prefecture::find_by_hiragana("とうきょうけん"); // uhmmmm...
+//! let tokyo = prefectures::find_by_hiragana("とうきょうけん"); // uhmmmm...
 //! println!("{:?}", tokyo); // => None
 //! ```
 

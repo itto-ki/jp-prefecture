@@ -3,9 +3,9 @@
 //! # Examples
 //!
 //! ```
-//! use jp_prefecture::prefectures::Prefecture;
+//! use jp_prefecture::prefectures::{self, Prefecture};
 //!
-//! let tokyo = Prefecture::find_by_kanji("東京都");
+//! let tokyo = prefectures::find_by_kanji("東京都");
 //!
 //! assert_eq!(tokyo, Some(Prefecture::Tokyo));
 //! assert_eq!(tokyo.unwrap().kanji(), "東京都");
@@ -220,105 +220,105 @@ impl Prefecture {
     pub fn english(&self) -> &'static str {
         PREFECTURE_MAP.get(&self).expect("Unexpected error").english
     }
+}
 
-    /// Find a prefecture by name in kanji
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use jp_prefecture::prefectures::Prefecture;
-    ///
-    /// assert_eq!(Prefecture::find_by_kanji("東京都"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_kanji("東京"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_kanji("東京県"), None);
-    /// ```
-    pub fn find_by_kanji(kanji: &str) -> Option<Self> {
-        let mut map: HashMap<&str, Prefecture> = HashMap::new();
-        PREFECTURE_MAP.iter().for_each(|(pref, _)| {
-            map.insert(pref.kanji(), *pref);
-            map.insert(pref.kanji_short(), *pref);
-        });
-        map.get(kanji).map(|pref| *pref)
-    }
+/// Find a prefecture by name in kanji
+///
+/// # Examples
+///
+/// ```
+/// use jp_prefecture::prefectures::{self, Prefecture};
+///
+/// assert_eq!(prefectures::find_by_kanji("東京都"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_kanji("東京"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_kanji("東京県"), None);
+/// ```
+pub fn find_by_kanji(kanji: &str) -> Option<Prefecture> {
+    let mut map: HashMap<&str, Prefecture> = HashMap::new();
+    PREFECTURE_MAP.iter().for_each(|(pref, _)| {
+        map.insert(pref.kanji(), *pref);
+        map.insert(pref.kanji_short(), *pref);
+    });
+    map.get(kanji).map(|pref| *pref)
+}
 
-    /// Find a prefecture by name in hiragana
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use jp_prefecture::prefectures::Prefecture;
-    ///
-    /// assert_eq!(Prefecture::find_by_hiragana("とうきょうと"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_hiragana("とうきょう"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_hiragana("とうきょうけん"), None);
-    /// ```
-    pub fn find_by_hiragana(hiragana: &str) -> Option<Self> {
-        let mut map: HashMap<&str, Prefecture> = HashMap::new();
-        PREFECTURE_MAP.iter().for_each(|(pref, _)| {
-            map.insert(pref.hiragana(), *pref);
-            map.insert(pref.hiragana_short(), *pref);
-        });
-        map.get(hiragana).map(|pref| *pref)
-    }
+/// Find a prefecture by name in hiragana
+///
+/// # Examples
+///
+/// ```
+/// use jp_prefecture::prefectures::{self, Prefecture};
+///
+/// assert_eq!(prefectures::find_by_hiragana("とうきょうと"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_hiragana("とうきょう"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_hiragana("とうきょうけん"), None);
+/// ```
+pub fn find_by_hiragana(hiragana: &str) -> Option<Prefecture> {
+    let mut map: HashMap<&str, Prefecture> = HashMap::new();
+    PREFECTURE_MAP.iter().for_each(|(pref, _)| {
+        map.insert(pref.hiragana(), *pref);
+        map.insert(pref.hiragana_short(), *pref);
+    });
+    map.get(hiragana).map(|pref| *pref)
+}
 
-    /// Find a prefecture by name in katakana
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use jp_prefecture::prefectures::Prefecture;
-    ///
-    /// assert_eq!(Prefecture::find_by_katakana("トウキョウト"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_katakana("トウキョウ"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_katakana("トウキョウケン"), None);
-    /// ```
-    pub fn find_by_katakana(katakana: &str) -> Option<Self> {
-        let mut map: HashMap<&str, Prefecture> = HashMap::new();
-        PREFECTURE_MAP.iter().for_each(|(pref, _)| {
-            map.insert(pref.katakana(), *pref);
-            map.insert(pref.katakana_short(), *pref);
-        });
-        map.get(katakana).map(|pref| *pref)
-    }
+/// Find a prefecture by name in katakana
+///
+/// # Examples
+///
+/// ```
+/// use jp_prefecture::prefectures::{self, Prefecture};
+///
+/// assert_eq!(prefectures::find_by_katakana("トウキョウト"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_katakana("トウキョウ"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_katakana("トウキョウケン"), None);
+/// ```
+pub fn find_by_katakana(katakana: &str) -> Option<Prefecture> {
+    let mut map: HashMap<&str, Prefecture> = HashMap::new();
+    PREFECTURE_MAP.iter().for_each(|(pref, _)| {
+        map.insert(pref.katakana(), *pref);
+        map.insert(pref.katakana_short(), *pref);
+    });
+    map.get(katakana).map(|pref| *pref)
+}
 
-    /// Find a prefecture by name in english
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use jp_prefecture::prefectures::Prefecture;
-    ///
-    /// assert_eq!(Prefecture::find_by_english("tokyo"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_english("Tokyo"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_english("tOkYo"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_english("tokyo~~~"), None);
-    /// ```
-    pub fn find_by_english(english: &str) -> Option<Self> {
-        PREFECTURE_MAP
-            .iter()
-            .find(|(_, data)| data.english == &english.to_ascii_lowercase())
-            .map(|(pref, _)| *pref)
-    }
+/// Find a prefecture by name in english
+///
+/// # Examples
+///
+/// ```
+/// use jp_prefecture::prefectures::{self, Prefecture};
+///
+/// assert_eq!(prefectures::find_by_english("tokyo"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_english("Tokyo"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_english("tOkYo"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_english("tokyo~~~"), None);
+/// ```
+pub fn find_by_english(english: &str) -> Option<Prefecture> {
+    PREFECTURE_MAP
+        .iter()
+        .find(|(_, data)| data.english == &english.to_ascii_lowercase())
+        .map(|(pref, _)| *pref)
+}
 
-    /// Find a prefecture by name
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use jp_prefecture::prefectures::Prefecture;
-    ///
-    /// assert_eq!(Prefecture::find("東京都"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find("東京"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find("とうきょうと"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find("とうきょう"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find("トウキョウト"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find("トウキョウ"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find("tokyo"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find("none"), None);
-    /// ```
-    pub fn find(s: &str) -> Option<Self> {
-        Self::from_str(s).ok()
-    }
+/// Find a prefecture by name
+///
+/// # Examples
+///
+/// ```
+/// use jp_prefecture::prefectures::{self, Prefecture};
+///
+/// assert_eq!(prefectures::find("東京都"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find("東京"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find("とうきょうと"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find("とうきょう"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find("トウキョウト"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find("トウキョウ"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find("tokyo"), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find("none"), None);
+/// ```
+pub fn find(s: &str) -> Option<Prefecture> {
+    Prefecture::from_str(s).ok()
 }
 
 impl FromStr for Prefecture {
@@ -849,7 +849,7 @@ mod tests {
     #[test_case("沖縄" => Some(Prefecture::Okinawa))]
     #[test_case("None" => None)]
     fn find_by_kanji_tests(kanji: &'static str) -> Option<Prefecture> {
-        Prefecture::find_by_kanji(kanji)
+        find_by_kanji(kanji)
     }
 
     #[test_case("ほっかいどう" => Some(Prefecture::Hokkaido))]
@@ -947,7 +947,7 @@ mod tests {
     #[test_case("おきなわ" => Some(Prefecture::Okinawa))]
     #[test_case("None" => None)]
     fn find_by_hiragana_tests(hiragana: &'static str) -> Option<Prefecture> {
-        Prefecture::find_by_hiragana(hiragana)
+        find_by_hiragana(hiragana)
     }
 
     #[test_case("ホッカイドウ" => Some(Prefecture::Hokkaido))]
@@ -1045,7 +1045,7 @@ mod tests {
     #[test_case("オキナワ" => Some(Prefecture::Okinawa))]
     #[test_case("None" => None)]
     fn find_by_katakana_tests(katakana: &'static str) -> Option<Prefecture> {
-        Prefecture::find_by_katakana(katakana)
+        find_by_katakana(katakana)
     }
 
     #[test_case("hokkaido" => Some(Prefecture::Hokkaido))]
@@ -1097,7 +1097,7 @@ mod tests {
     #[test_case("okinawa" => Some(Prefecture::Okinawa))]
     #[test_case("None" => None)]
     fn find_by_english_tests(katakana: &'static str) -> Option<Prefecture> {
-        Prefecture::find_by_english(katakana)
+        find_by_english(katakana)
     }
 
     #[test_case("東京都" => Some(Prefecture::Tokyo))]
@@ -1110,7 +1110,7 @@ mod tests {
     #[test_case("HoKkaido" => Some(Prefecture::Hokkaido))]
     #[test_case("none" => None)]
     fn find_tests(s: &str) -> Option<Prefecture> {
-        Prefecture::find(s)
+        find(s)
     }
 
     #[test_case("東京都" => Ok(Prefecture::Tokyo))]
