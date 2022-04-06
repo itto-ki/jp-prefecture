@@ -193,10 +193,10 @@ impl Prefecture {
     ///
     /// let tokyo = Prefecture::Tokyo;
     ///
-    /// assert_eq!(tokyo.romaji(), "tokyo");
+    /// assert_eq!(tokyo.english(), "tokyo");
     /// ```
-    pub fn romaji(&self) -> &'static str {
-        PREFECTURE_MAP.get(&self).expect("Unexpected error").romaji
+    pub fn english(&self) -> &'static str {
+        PREFECTURE_MAP.get(&self).expect("Unexpected error").english
     }
 
     /// Find a prefecture by name in kanji
@@ -266,13 +266,13 @@ impl Prefecture {
     /// ```
     /// use jp_prefecture::prefectures::Prefecture;
     ///
-    /// assert_eq!(Prefecture::find_by_romaji("tokyo"), Some(Prefecture::Tokyo));
-    /// assert_eq!(Prefecture::find_by_romaji("tokyo~~~"), None);
+    /// assert_eq!(Prefecture::find_by_english("tokyo"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_english("tokyo~~~"), None);
     /// ```
-    pub fn find_by_romaji(romaji: &str) -> Option<Self> {
+    pub fn find_by_english(english: &str) -> Option<Self> {
         PREFECTURE_MAP
             .iter()
-            .find(|(_, data)| data.romaji == romaji)
+            .find(|(_, data)| data.english == english)
             .map(|(pref, _)| *pref)
     }
 }
@@ -686,8 +686,8 @@ mod tests {
     #[test_case(Prefecture::Miyazaki => "miyazaki")]
     #[test_case(Prefecture::Kagoshima => "kagoshima")]
     #[test_case(Prefecture::Okinawa => "okinawa")]
-    fn romaji_tests(prefecture: Prefecture) -> &'static str {
-        prefecture.romaji()
+    fn english_tests(prefecture: Prefecture) -> &'static str {
+        prefecture.english()
     }
 
     #[test_case("北海道" => Some(Prefecture::Hokkaido))]
@@ -982,5 +982,57 @@ mod tests {
     #[test_case("None" => None)]
     fn find_by_katakana_tests(katakana: &'static str) -> Option<Prefecture> {
         Prefecture::find_by_katakana(katakana)
+    }
+
+    #[test_case("hokkaido" => Some(Prefecture::Hokkaido))]
+    #[test_case("aomori" => Some(Prefecture::Aomori))]
+    #[test_case("iwate" => Some(Prefecture::Iwate))]
+    #[test_case("miyagi" => Some(Prefecture::Miyagi))]
+    #[test_case("akita" => Some(Prefecture::Akita))]
+    #[test_case("yamagata" => Some(Prefecture::Yamagata))]
+    #[test_case("fukushima" => Some(Prefecture::Fukushima))]
+    #[test_case("ibaraki" => Some(Prefecture::Ibaraki))]
+    #[test_case("tochigi" => Some(Prefecture::Tochigi))]
+    #[test_case("gunma" => Some(Prefecture::Gunma))]
+    #[test_case("saitama" => Some(Prefecture::Saitama))]
+    #[test_case("chiba" => Some(Prefecture::Chiba))]
+    #[test_case("tokyo" => Some(Prefecture::Tokyo))]
+    #[test_case("kanagawa" => Some(Prefecture::Kanagawa))]
+    #[test_case("niigata" => Some(Prefecture::Niigata))]
+    #[test_case("toyama" => Some(Prefecture::Toyama))]
+    #[test_case("ishikawa" => Some(Prefecture::Ishikawa))]
+    #[test_case("fukui" => Some(Prefecture::Fukui))]
+    #[test_case("yamanashi" => Some(Prefecture::Yamanashi))]
+    #[test_case("nagano" => Some(Prefecture::Nagano))]
+    #[test_case("gifu" => Some(Prefecture::Gifu))]
+    #[test_case("shizuoka" => Some(Prefecture::Shizuoka))]
+    #[test_case("aichi" => Some(Prefecture::Aichi))]
+    #[test_case("mie" => Some(Prefecture::Mie))]
+    #[test_case("shiga" => Some(Prefecture::Shiga))]
+    #[test_case("kyoto" => Some(Prefecture::Kyoto))]
+    #[test_case("osaka" => Some(Prefecture::Osaka))]
+    #[test_case("hyogo" => Some(Prefecture::Hyogo))]
+    #[test_case("nara" => Some(Prefecture::Nara))]
+    #[test_case("wakayama" => Some(Prefecture::Wakayama))]
+    #[test_case("tottori" => Some(Prefecture::Tottori))]
+    #[test_case("shimane" => Some(Prefecture::Shimane))]
+    #[test_case("okayama" => Some(Prefecture::Okayama))]
+    #[test_case("hiroshima" => Some(Prefecture::Hiroshima))]
+    #[test_case("yamaguchi" => Some(Prefecture::Yamaguchi))]
+    #[test_case("tokushima" => Some(Prefecture::Tokushima))]
+    #[test_case("kagawa" => Some(Prefecture::Kagawa))]
+    #[test_case("ehime" => Some(Prefecture::Ehime))]
+    #[test_case("kochi" => Some(Prefecture::Kochi))]
+    #[test_case("fukuoka" => Some(Prefecture::Fukuoka))]
+    #[test_case("saga" => Some(Prefecture::Saga))]
+    #[test_case("nagasaki" => Some(Prefecture::Nagasaki))]
+    #[test_case("kumamoto" => Some(Prefecture::Kumamoto))]
+    #[test_case("oita" => Some(Prefecture::Oita))]
+    #[test_case("miyazaki" => Some(Prefecture::Miyazaki))]
+    #[test_case("kagoshima" => Some(Prefecture::Kagoshima))]
+    #[test_case("okinawa" => Some(Prefecture::Okinawa))]
+    #[test_case("None" => None)]
+    fn find_by_english_tests(katakana: &'static str) -> Option<Prefecture> {
+        Prefecture::find_by_english(katakana)
     }
 }
