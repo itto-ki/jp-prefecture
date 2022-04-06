@@ -258,6 +258,23 @@ impl Prefecture {
         });
         map.get(katakana).map(|pref| *pref)
     }
+
+    /// Find a prefecture by name in romaji
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use jp_prefecture::prefectures::Prefecture;
+    ///
+    /// assert_eq!(Prefecture::find_by_romaji("tokyo"), Some(Prefecture::Tokyo));
+    /// assert_eq!(Prefecture::find_by_romaji("tokyo~~~"), None);
+    /// ```
+    pub fn find_by_romaji(romaji: &str) -> Option<Self> {
+        PREFECTURE_MAP
+            .iter()
+            .find(|(_, data)| data.romaji == romaji)
+            .map(|(pref, _)| *pref)
+    }
 }
 
 #[cfg(test)]
