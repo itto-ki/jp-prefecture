@@ -1,6 +1,7 @@
 [![Crates.io](https://img.shields.io/crates/v/jp-prefecture.svg)](https://crates.io/crates/jp-prefecture)
 [![Docs.rs](https://docs.rs/jp-prefecture/badge.svg)](https://docs.rs/jp-prefecture)
 ![Crates.io](https://img.shields.io/crates/l/jp-prefecture)
+![Test](https://github.com/itto-ki/jp-prefecture/actions/workflows/test.yml/badge.svg?branch=main)
 
 # jp-prefecture
 
@@ -12,7 +13,7 @@ Crate has to be added as dependency to `Cargo.toml`
 
 ```toml
 [dependencies]
-jp-prefecture = "0.1.0"
+jp-prefecture = "1.0.2"
 ```
 
 and imported to the scope of a block where it's begin called

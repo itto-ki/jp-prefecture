@@ -5,7 +5,7 @@
 //! Crate has to be added as dependency to `Cargo.toml`
 //! ```toml
 //! [dependencies]
-//! jp-prefecture = "0.1.0"
+//! jp-prefecture = "1.0.2"
 //! ```
 //! and imported to the scope of a block where it's begin called
 //! ```rust
@@ -25,8 +25,6 @@
 //! let tokyo = prefectures::find_by_hiragana("東京県"); // uhmmmm...
 //! println!("{:?}", tokyo); // => None
 //! ```
-
-use thiserror;
 
 mod mapping;
 pub mod prefectures;

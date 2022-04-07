@@ -122,9 +122,9 @@ impl Prefecture {
         let kanji = self.kanji();
         match self {
             Prefecture::Hokkaido => kanji,
-            Prefecture::Tokyo => kanji.trim_end_matches("都"),
-            Prefecture::Kyoto | Prefecture::Osaka => kanji.trim_end_matches("府"),
-            _ => kanji.trim_end_matches("県"),
+            Prefecture::Tokyo => kanji.trim_end_matches('都'),
+            Prefecture::Kyoto | Prefecture::Osaka => kanji.trim_end_matches('府'),
+            _ => kanji.trim_end_matches('県'),
         }
     }
 
@@ -140,10 +140,7 @@ impl Prefecture {
     /// assert_eq!(tokyo.hiragana(), "とうきょうと");
     /// ```
     pub fn hiragana(&self) -> &'static str {
-        PREFECTURE_MAP
-            .get(&self)
-            .expect("Unexpected error")
-            .hiragana
+        PREFECTURE_MAP.get(self).expect("Unexpected error").hiragana
     }
 
     /// Return a short prefecture name in hiragana
@@ -161,8 +158,8 @@ impl Prefecture {
         let hiragana = self.hiragana();
         match self {
             Prefecture::Hokkaido => hiragana,
-            Prefecture::Tokyo => hiragana.trim_end_matches("と"),
-            Prefecture::Kyoto | Prefecture::Osaka => hiragana.trim_end_matches("ふ"),
+            Prefecture::Tokyo => hiragana.trim_end_matches('と'),
+            Prefecture::Kyoto | Prefecture::Osaka => hiragana.trim_end_matches('ふ'),
             _ => hiragana.trim_end_matches("けん"),
         }
     }
@@ -179,10 +176,7 @@ impl Prefecture {
     /// assert_eq!(tokyo.katakana(), "トウキョウト");
     /// ```
     pub fn katakana(&self) -> &'static str {
-        PREFECTURE_MAP
-            .get(&self)
-            .expect("Unexpected error")
-            .katakana
+        PREFECTURE_MAP.get(self).expect("Unexpected error").katakana
     }
 
     /// Return a prefecture name in katakana
@@ -200,8 +194,8 @@ impl Prefecture {
         let katakana = self.katakana();
         match self {
             Prefecture::Hokkaido => katakana,
-            Prefecture::Tokyo => katakana.trim_end_matches("ト"),
-            Prefecture::Kyoto | Prefecture::Osaka => katakana.trim_end_matches("フ"),
+            Prefecture::Tokyo => katakana.trim_end_matches('ト'),
+            Prefecture::Kyoto | Prefecture::Osaka => katakana.trim_end_matches('フ'),
             _ => katakana.trim_end_matches("ケン"),
         }
     }
@@ -218,7 +212,7 @@ impl Prefecture {
     /// assert_eq!(tokyo.english(), "tokyo");
     /// ```
     pub fn english(&self) -> &'static str {
-        PREFECTURE_MAP.get(&self).expect("Unexpected error").english
+        PREFECTURE_MAP.get(self).expect("Unexpected error").english
     }
 }
 
@@ -239,7 +233,7 @@ pub fn find_by_kanji(kanji: &str) -> Option<Prefecture> {
         map.insert(pref.kanji(), *pref);
         map.insert(pref.kanji_short(), *pref);
     });
-    map.get(kanji).map(|pref| *pref)
+    map.get(kanji).copied()
 }
 
 /// Find a prefecture by name in hiragana
@@ -259,7 +253,7 @@ pub fn find_by_hiragana(hiragana: &str) -> Option<Prefecture> {
         map.insert(pref.hiragana(), *pref);
         map.insert(pref.hiragana_short(), *pref);
     });
-    map.get(hiragana).map(|pref| *pref)
+    map.get(hiragana).copied()
 }
 
 /// Find a prefecture by name in katakana
@@ -279,7 +273,7 @@ pub fn find_by_katakana(katakana: &str) -> Option<Prefecture> {
         map.insert(pref.katakana(), *pref);
         map.insert(pref.katakana_short(), *pref);
     });
-    map.get(katakana).map(|pref| *pref)
+    map.get(katakana).copied()
 }
 
 /// Find a prefecture by name in english
@@ -297,7 +291,7 @@ pub fn find_by_katakana(katakana: &str) -> Option<Prefecture> {
 pub fn find_by_english(english: &str) -> Option<Prefecture> {
     PREFECTURE_MAP
         .iter()
-        .find(|(_, data)| data.english == &english.to_ascii_lowercase())
+        .find(|(_, data)| data.english == english.to_ascii_lowercase())
         .map(|(pref, _)| *pref)
 }
 
@@ -336,8 +330,8 @@ impl FromStr for Prefecture {
             map.insert(pref.english(), *pref);
         });
         map.get(s.to_ascii_lowercase().as_str())
-            .map(|pref| *pref)
-            .ok_or(Self::Err::ParseError(s.to_string()))
+            .copied()
+            .ok_or_else(|| Self::Err::ParseError(s.to_string()))
     }
 }
 
