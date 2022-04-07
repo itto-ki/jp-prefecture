@@ -1,3 +1,7 @@
+[![Crates.io](https://img.shields.io/crates/v/jp-prefecture.svg)](https://crates.io/crates/jp-prefecture)
+[![Docs.rs](https://docs.rs/jp-prefecture/badge.svg)](https://docs.rs/jp-prefecture)
+![Crates.io](https://img.shields.io/crates/l/jp-prefecture)
+
 # jp-prefecture
 
 jp-prefecture is an useful crate for using Japanese prefectures
