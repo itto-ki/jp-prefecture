@@ -26,8 +26,6 @@
 //! println!("{:?}", tokyo); // => None
 //! ```
 
-use thiserror;
-
 mod mapping;
 pub mod prefectures;
 
