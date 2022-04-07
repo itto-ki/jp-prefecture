@@ -1,4 +1,4 @@
-name: Lint & Test
+name: Test
 
 on:
   push:
@@ -22,10 +22,7 @@ jobs:
           toolchain: stable-x86_64-unknown-linux-gnu
           profile: minimal
           override: true
-
-      - name: Install cargo toolchain
-        run: |
-          rustup component add rustfmt clippy
+          components: rustfmt, clippy
 
       - uses: actions/cache@v3
         with:
@@ -36,6 +33,10 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: check
+        run: |
+          cargo check --all --verbose
 
       - name: Run format
         run: |
