@@ -1,5 +1,5 @@
 //! # Overview
-//! jp-prefecture is utility library for using Japanese prefectures
+//! jp-prefecture is an utility library for using Japanese prefectures
 //!
 //! # Getting Started
 //! Crate has to be added as dependency to `Cargo.toml`
@@ -17,9 +17,12 @@
 //! use jp_prefecture::prefectures;
 //!
 //! let tokyo = prefectures::find_by_kanji("東京都");
+//! println!("{:?}", tokyo); // => Some(Prefecture::Tokyo)
+//! println!("{:?}", tokyo.unwrap().kanji()); // => "東京都"
+//! println!("{:?}", tokyo.unwrap().kanji_short()); // => "東京"
 //! println!("{:?}", tokyo.unwrap().english()); // => "tokyo"
 //!
-//! let tokyo = prefectures::find_by_hiragana("とうきょうけん"); // uhmmmm...
+//! let tokyo = prefectures::find_by_hiragana("東京県"); // uhmmmm...
 //! println!("{:?}", tokyo); // => None
 //! ```
 

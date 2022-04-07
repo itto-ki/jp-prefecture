@@ -3,6 +3,12 @@ name = "jp-prefecture"
 version = "0.1.0"
 authors = ["Ittoh Kimura <kimura.itto.kd3@gmail.com>"]
 edition = "2021"
+description = "an utility crate of using Japanese prefectures"
+readme = "README.md"
+license = "MIT"
+license-file = "LICENSE"
+keywords = ["japanese", "prefecture"]
+categories = ["localization"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
