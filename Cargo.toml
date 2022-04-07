@@ -6,7 +6,6 @@ edition = "2021"
 description = "an utility crate of using Japanese prefectures"
 readme = "README.md"
 license = "MIT"
-license-file = "LICENSE"
 keywords = ["japanese", "prefecture"]
 categories = ["localization"]
 
