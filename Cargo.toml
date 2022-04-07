@@ -8,6 +8,8 @@ readme = "README.md"
 license = "MIT"
 keywords = ["japanese", "prefecture"]
 categories = ["localization"]
+documentation = "https://docs.rs/jp-prefecture/jp_prefecture/"
+repository = "https://github.com/itto-ki/jp-prefecture"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
