@@ -1,6 +1,6 @@
 [package]
 name = "jp-prefecture"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Ittoh Kimura <kimura.itto.kd3@gmail.com>"]
 edition = "2021"
 description = "an utility crate of using Japanese prefectures"
