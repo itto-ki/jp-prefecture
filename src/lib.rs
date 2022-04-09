@@ -5,7 +5,7 @@
 //! Crate has to be added as dependency to `Cargo.toml`
 //! ```toml
 //! [dependencies]
-//! jp-prefecture = "1.0.2"
+//! jp-prefecture = "1.0.3"
 //! ```
 //! and imported to the scope of a block where it's begin called
 //! ```rust
@@ -22,7 +22,7 @@
 //! println!("{:?}", tokyo.unwrap().kanji_short()); // => "東京"
 //! println!("{:?}", tokyo.unwrap().english()); // => "tokyo"
 //!
-//! let tokyo = prefectures::find_by_hiragana("東京県"); // uhmmmm...
+//! let tokyo = prefectures::find_by_kanji("東京県"); // uhmmmm...
 //! println!("{:?}", tokyo); // => None
 //! ```
 
