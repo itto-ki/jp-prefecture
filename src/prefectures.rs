@@ -25,7 +25,7 @@ use crate::mapping::PREFECTURE_MAP;
 use crate::Error;
 
 /// A value of japanese prefecture
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Prefecture {
     Hokkaido = 1,
     Aomori = 2,
@@ -313,6 +313,26 @@ pub fn find_by_english(english: &str) -> Option<Prefecture> {
 /// ```
 pub fn find(s: &str) -> Option<Prefecture> {
     Prefecture::from_str(s).ok()
+}
+
+/// Get all prefectures
+///
+/// ```
+/// use jp_prefecture::prefectures::{self, Prefecture};
+///
+/// let mut all_prefectures = prefectures::all();
+///
+/// assert_eq!(all_prefectures.len(), 47);
+///
+/// all_prefectures.sort();   // sort by JIS X 0401 codes
+/// assert_eq!(all_prefectures[0], Prefecture::Hokkaido);
+/// ```
+pub fn all() -> Vec<Prefecture> {
+    PREFECTURE_MAP
+        .keys()
+        .into_iter()
+        .cloned()
+        .collect::<Vec<Prefecture>>()
 }
 
 impl FromStr for Prefecture {
