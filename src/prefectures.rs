@@ -216,6 +216,24 @@ impl Prefecture {
     }
 }
 
+/// Find a prefecture by JIS X 0401 code
+///
+/// # Examples
+///
+/// ```
+/// use jp_prefecture::prefectures::{self, Prefecture};
+///
+/// assert_eq!(prefectures::find_by_code(13), Some(Prefecture::Tokyo));
+/// assert_eq!(prefectures::find_by_code(100), None);
+/// ```
+pub fn find_by_code(code: u32) -> Option<Prefecture> {
+    let mut map: HashMap<u32, Prefecture> = HashMap::new();
+    PREFECTURE_MAP.iter().for_each(|(pref, _)| {
+        map.insert(pref.jis_x_0401_code(), *pref);
+    });
+    map.get(&code).copied()
+}
+
 /// Find a prefecture by name in kanji
 ///
 /// # Examples
@@ -746,6 +764,58 @@ mod tests {
     #[test_case(Prefecture::Okinawa => "okinawa")]
     fn english_tests(prefecture: Prefecture) -> &'static str {
         prefecture.english()
+    }
+
+    #[test_case(1 => Some(Prefecture::Hokkaido))]
+    #[test_case(2 => Some(Prefecture::Aomori))]
+    #[test_case(3 => Some(Prefecture::Iwate))]
+    #[test_case(4 => Some(Prefecture::Miyagi))]
+    #[test_case(5 => Some(Prefecture::Akita))]
+    #[test_case(6 => Some(Prefecture::Yamagata))]
+    #[test_case(7 => Some(Prefecture::Fukushima))]
+    #[test_case(8 => Some(Prefecture::Ibaraki))]
+    #[test_case(9 => Some(Prefecture::Tochigi))]
+    #[test_case(10 => Some(Prefecture::Gunma))]
+    #[test_case(11 => Some(Prefecture::Saitama))]
+    #[test_case(12 => Some(Prefecture::Chiba))]
+    #[test_case(13 => Some(Prefecture::Tokyo))]
+    #[test_case(14 => Some(Prefecture::Kanagawa))]
+    #[test_case(15 => Some(Prefecture::Niigata))]
+    #[test_case(16 => Some(Prefecture::Toyama))]
+    #[test_case(17 => Some(Prefecture::Ishikawa))]
+    #[test_case(18 => Some(Prefecture::Fukui))]
+    #[test_case(19 => Some(Prefecture::Yamanashi))]
+    #[test_case(20 => Some(Prefecture::Nagano))]
+    #[test_case(21 => Some(Prefecture::Gifu))]
+    #[test_case(22 => Some(Prefecture::Shizuoka))]
+    #[test_case(23 => Some(Prefecture::Aichi))]
+    #[test_case(24 => Some(Prefecture::Mie))]
+    #[test_case(25 => Some(Prefecture::Shiga))]
+    #[test_case(26 => Some(Prefecture::Kyoto))]
+    #[test_case(27 => Some(Prefecture::Osaka))]
+    #[test_case(28 => Some(Prefecture::Hyogo))]
+    #[test_case(29 => Some(Prefecture::Nara))]
+    #[test_case(30 => Some(Prefecture::Wakayama))]
+    #[test_case(31 => Some(Prefecture::Tottori))]
+    #[test_case(32 => Some(Prefecture::Shimane))]
+    #[test_case(33 => Some(Prefecture::Okayama))]
+    #[test_case(34 => Some(Prefecture::Hiroshima))]
+    #[test_case(35 => Some(Prefecture::Yamaguchi))]
+    #[test_case(36 => Some(Prefecture::Tokushima))]
+    #[test_case(37 => Some(Prefecture::Kagawa))]
+    #[test_case(38 => Some(Prefecture::Ehime))]
+    #[test_case(39 => Some(Prefecture::Kochi))]
+    #[test_case(40 => Some(Prefecture::Fukuoka))]
+    #[test_case(41 => Some(Prefecture::Saga))]
+    #[test_case(42 => Some(Prefecture::Nagasaki))]
+    #[test_case(43 => Some(Prefecture::Kumamoto))]
+    #[test_case(44 => Some(Prefecture::Oita))]
+    #[test_case(45 => Some(Prefecture::Miyazaki))]
+    #[test_case(46 => Some(Prefecture::Kagoshima))]
+    #[test_case(47 => Some(Prefecture::Okinawa))]
+    #[test_case(48 => None)]
+    fn find_by_code_tests(code: u32) -> Option<Prefecture> {
+        find_by_code(code)
     }
 
     #[test_case("北海道" => Some(Prefecture::Hokkaido))]
