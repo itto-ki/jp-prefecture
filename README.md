@@ -5,7 +5,7 @@
 
 # jp-prefecture
 
-jp-prefecture is an useful crate for using Japanese prefectures
+jp-prefecture is an utility library for handling Japanese prefectures.
 
 # Getting Started
 
@@ -28,11 +28,11 @@ use jp_prefecture::prefectures;
 use jp_prefecture::prefectures;
 
 let tokyo = prefectures::find_by_kanji("東京都");
-println!("{:?}", tokyo); // => Some(Prefecture::Tokyo)
+println!("{:?}", tokyo); // => Ok(Prefecture::Tokyo)
 println!("{:?}", tokyo.unwrap().kanji()); // => "東京都"
 println!("{:?}", tokyo.unwrap().kanji_short()); // => "東京"
 println!("{:?}", tokyo.unwrap().english()); // => "tokyo"
 
 let tokyo = prefectures::find_by_kanji("東京県"); // uhmmmm...
-println!("{:?}", tokyo); // => None
+println!("{:?}", tokyo); // => Err(Error::InvalidPrefectureName("東京県"))
 ```

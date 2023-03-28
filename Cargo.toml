@@ -23,4 +23,5 @@ test-case = "3.0.0"
 [package.metadata.release]
 pre-release-replacements = [
     { file = "README.md", search = "jp-prefecture = \"[a-z0-9\\.-]+\"", replace = "jp-prefecture = \"{{version}}\"" },
+    { file = "src/lib.rs", search = "jp-prefecture = \"[a-z0-9\\.-]+\"", replace = "jp-prefecture = \"{{version}}\"" },
 ]
