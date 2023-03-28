@@ -19,3 +19,8 @@ thiserror = "1.0.30"
 
 [dev-dependencies]
 test-case = "3.0.0"
+
+[package.metadata.release]
+pre-release-replacements = [
+    { file = "README.md", search = "jp-prefecture = \"[a-z0-9\\.-]+\"", replace = "jp-prefecture = \"{{version}}\"" },
+]
