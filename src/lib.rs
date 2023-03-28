@@ -29,10 +29,13 @@
 mod mapping;
 pub mod prefectures;
 
-/// Represents errors that can occur using prefectures
-#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
-pub enum Error {
-    /// a prefecture name cannot be parsed
-    #[error("Failed conversion to prefecture: {0}")]
-    ParseError(String),
+/// Enum representing errors related to Japanese prefectures
+#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
+pub enum Error<'a> {
+    /// The prefecture code cannot be parsed or is invalid
+    #[error("Invalid prefecture code: {0}")]
+    InvalidPrefectureCode(u32),
+    /// The prefecture name cannot be parsed or is invalid
+    #[error("Invalid prefecture name: {0}")]
+    InvalidPrefectureName(&'a str),
 }
