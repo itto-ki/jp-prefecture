@@ -13,7 +13,7 @@ Crate has to be added as dependency to `Cargo.toml`
 
 ```toml
 [dependencies]
-jp-prefecture = "3.0.0"
+jp-prefecture = "3.1.0"
 ```
 
 and imported to the scope of a block where it's begin called
